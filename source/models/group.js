@@ -1,6 +1,6 @@
-const moongose = require('../database/index')
+const mongoose = require('../database/index')
 
-const GroupSchema = new moongose.Schema({
+const GroupSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -23,6 +23,6 @@ const GroupSchema = new moongose.Schema({
     }
 });
 
-const Group = moongose.model('Group', GroupSchema);
+const Group = mongoose.model('Group', GroupSchema);
 
 module.exports = Group;

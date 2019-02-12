@@ -7,5 +7,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
 require('./routes/group')(app);
+require('./routes/user')(app);
 
 module.exports = app;
