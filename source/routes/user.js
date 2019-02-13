@@ -1,7 +1,9 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+const authConfig = require('../config/auth')
 
 const router = express.Router();
 
@@ -35,7 +37,10 @@ router.post('/authUser', async (req, res) => {
         return res.status(403).send({ error: 'Ops! Sua senha esta incorreta (Ref 00x306)' })
     
     user.password = undefined;
-    res.send({ user })
+    const token = jwt.sign({ id: user.id }, authConfig.secret, {
+        expiresIn: 86400,
+    })
+    res.send({ user, token })
 })
 
 module.exports = app => app.use('/user', router);
