@@ -3,7 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
-const authConfig = require('../config/auth')
+const authConfig = require('../config/auth');
+const tokenService = require('../services/tokenService');
 
 const router = express.Router();
 
@@ -14,11 +15,16 @@ router.post('/createUser', async (req, res) => {
         if(await User.findOne({ email }))
             return res.status(400).send({ error: 'Usuário já esta cadastrado. (Ref 00x303)'})
 
-        const newUser = await User.create(req.body);
+        const user = await User.create(req.body);
 
-        newUser.password = undefined;
+        user.password = undefined;
 
-        return res.send({ newUser })
+        return res.send(
+            { 
+                user,
+                token: tokenService.generateToken({ id: user.id })
+            }
+        )
     } catch (err) {
         return res.status(400).send({ error: 'Ops! Algo inesperado ocorreu ao tentar criar o novo usuário. (Ref 00x302)' + err })
     }
@@ -37,10 +43,12 @@ router.post('/authUser', async (req, res) => {
         return res.status(403).send({ error: 'Ops! Sua senha esta incorreta (Ref 00x306)' })
     
     user.password = undefined;
-    const token = jwt.sign({ id: user.id }, authConfig.secret, {
-        expiresIn: 86400,
-    })
-    res.send({ user, token })
+    res.send(
+        { 
+            user,
+            token: tokenService.generateToken({ id: user.id })
+        }
+    )
 })
 
 module.exports = app => app.use('/user', router);
