@@ -1,4 +1,4 @@
-const mongoose = require('../database/index')
+const mongoose = require('../../database/index')
 
 const GroupSchema = new mongoose.Schema({
     name: {

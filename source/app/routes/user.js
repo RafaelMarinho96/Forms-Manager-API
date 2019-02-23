@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
-const authConfig = require('../config/auth');
+const authConfig = require('../../config/auth');
 const tokenService = require('../services/tokenService');
 
 const router = express.Router();
