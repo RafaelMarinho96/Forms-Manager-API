@@ -6,7 +6,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
-require('./app/routes/group')(app);
-require('./app/routes/user')(app);
+require('./app/routes/index')(app);
+
 
 module.exports = app;
