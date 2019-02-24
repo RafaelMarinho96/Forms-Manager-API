@@ -8,5 +8,4 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 require('./app/routes/index')(app);
 
-
 module.exports = app;
