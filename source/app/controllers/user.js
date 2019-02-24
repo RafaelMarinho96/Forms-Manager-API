@@ -79,7 +79,7 @@ async function forgotPassword(req, res){
             if(err)
                 return res.status(400).send({ error: 'Cannot send forgot password email. (Ref 00x620)' })
 
-            return res.send();
+            return res.status(200).send({ message: 'Hey, a new email has send to retrieve your password. Ref(00x300)'});
         })
 
     } catch (error) {
@@ -87,8 +87,38 @@ async function forgotPassword(req, res){
     }
 }
 
+async function resetPassword(req, res){
+    const { email, token, password } = req.body;
+
+    try {
+        const user = await userModel.findOne({ email })
+            .select('+passwordResetToken passwordResetExpires')
+
+        if(!user)
+            return res.status(400).send({ error: 'Hey! Não identificamos o seu email (Ref 00x305)'});
+
+        if(token !== user.passwordResetToken)
+            return res.status(400).send({ error: 'Ops, this token is invalid. (Ref 00x567)'})
+
+        const now = new Date();
+
+        if(now > user.passwordResetExpires)
+            return res.status(400).send({ error: 'This token is expired, generate a new one. (Ref 00x522)'})
+
+        user.password = password;
+
+        await user.save();
+
+        res.send();
+
+    } catch (error) {
+        res.status(400).send({ error: 'Cannot reset password, try again later. (Ref 00x544)' })
+    }
+}
+
 module.exports = {
     createUser,
     authUser,
-    forgotPassword
+    forgotPassword,
+    resetPassword
 }
