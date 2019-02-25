@@ -43,7 +43,7 @@ async function authUser(req, res){
     res.send(
         { 
             user,
-            token: tokenService.generateToken({ id: user.id })
+            token: tokenService.generateToken({ id: user.id, email: user.email, nome: user.name })
         }
     )
 }
