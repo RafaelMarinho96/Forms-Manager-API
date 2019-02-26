@@ -116,9 +116,28 @@ async function resetPassword(req, res){
     }
 }
 
+
+async function isAvailable(req, res){
+    const email = req.params.email;
+
+    try {
+        const user = await userModel.findOne({email});
+
+        if(!user)
+            return res.status(200).send({ message: 'This user is available'});
+        
+        if(user)
+            return res.status(200).send({ message: 'This user is not available'});
+
+    } catch (error) {
+        return res.status(400).send({ error: 'User is not be find, try again.'});
+    }
+}
+
 module.exports = {
     createUser,
     authUser,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    isAvailable
 }
