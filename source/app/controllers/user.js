@@ -124,7 +124,7 @@ async function isAvailable(req, res){
         const user = await userModel.findOne({email});
 
         if(!user)
-            return res.status(200).send({ message: 'This user is available'});
+            return res.status(400);
         
         if(user)
             return res.status(200).send({ message: 'This user is not available'});
