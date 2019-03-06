@@ -6,6 +6,6 @@ const authMiddleware = require('../middlewares/auth');
 const router = express.Router();
 router.use(authMiddleware);
 
-router.post('/createGroup', groupController.createGroup);
+router.post('/', groupController.create);
 
 module.exports = app => app.use('/group', router);

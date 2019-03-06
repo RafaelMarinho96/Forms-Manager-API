@@ -6,7 +6,7 @@ const GroupSchema = new mongoose.Schema({
         required: true
     },
     author: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     members: {
@@ -20,7 +20,11 @@ const GroupSchema = new mongoose.Schema({
     created_at: {
         type: String,
         required: true
-    }
+    },
+    form: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Form'
+    }]
 });
 
 const Group = mongoose.model('Group', GroupSchema);

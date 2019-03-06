@@ -11,15 +11,13 @@ const FormSchema = new moongose.Schema({
         required: true
     },
     group: {
-        id: {
-            type: moongose.Schema.Types.ObjectId,
-            ref: 'Group',
-            required: true
-        },
-        name: {
-            type: String,
-            required: true
-        }
+        type: moongose.Schema.Types.ObjectId,
+        ref: 'Group',
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
     },
     access: {
         level: {
@@ -29,10 +27,6 @@ const FormSchema = new moongose.Schema({
         members: [{
             type: String
         }]
-    },
-    description: {
-        type: String,
-        required: true
     },
     form:{
         type: Object,
