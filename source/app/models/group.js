@@ -10,18 +10,16 @@ const GroupSchema = new mongoose.Schema({
         required: true
     },
     members: {
-        type: String,
-        required: true
+        type: String
     },
     description: {
         type: String,
         required: false
     },
     created_at: {
-        type: String,
-        required: true
+        type: String
     },
-    form: [{
+    forms: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Form'
     }]
