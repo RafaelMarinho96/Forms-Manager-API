@@ -6,12 +6,20 @@ const FormSchema = new moongose.Schema({
         required: true
     },
     author: {
-        type: String,
+        type: moongose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     group: {
-        type: String,
-        required: true
+        id: {
+            type: moongose.Schema.Types.ObjectId,
+            ref: 'Group',
+            required: true
+        },
+        name: {
+            type: String,
+            required: true
+        }
     },
     access: {
         level: {
