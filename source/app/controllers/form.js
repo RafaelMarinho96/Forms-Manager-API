@@ -43,9 +43,23 @@ async function deleteById(req, res){
    } 
 }
 
+async function updateById(req, res){
+    try {
+        const data = req.body;
+
+        const form = await formModel.findByIdAndUpdate(req.params.formId, data, {new: true})
+
+        res.send({form})
+    } catch (err) {
+        console.log(err)
+        return res.status(400).send({ error: 'Failed on update form. (Ref 00x303)'});
+    }
+}
+
 module.exports = {
     create,
     find,
     findById,
-    deleteById
+    deleteById,
+    updateById
 }

@@ -10,5 +10,6 @@ router.post('/', formController.create);
 router.get('/', formController.find);
 router.get('/:formId', formController.findById);
 router.delete('/:formId', formController.deleteById);
+router.put('/:formId', formController.updateById)
 
 module.exports = app => app.use('/form', router);
