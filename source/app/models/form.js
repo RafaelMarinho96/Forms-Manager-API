@@ -22,7 +22,6 @@ const FormSchema = new moongose.Schema({
     access: {
         level: {
             type: String,
-            required: true,
         },
         members: [{
             type: String

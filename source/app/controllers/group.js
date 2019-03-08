@@ -63,6 +63,7 @@ async function update(req, res){
 async function pushGroupFormById(req, res){
     try {
         const { forms } = req.body;
+        console.log(req.body)
 
         const group = await groupForm.findByIdAndUpdate(req.params.groupId, forms, {new: true});
 
