@@ -8,6 +8,9 @@ async function create(req, res){
 
         const group = await groupForm.create({ name, members, description, created_at, author: req.userID });
 
+        if(!forms)
+            return res.send({ group });
+            
         await Promise.all(forms.map(async form => {
             const groupForm = new Form({ ...form, author: req.userID, group: group._id })
 

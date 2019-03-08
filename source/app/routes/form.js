@@ -4,7 +4,7 @@ const formController = require('../controllers/form');
 const authMiddleware = require('../middlewares/auth');
 
 const router = express.Router();
-router.use(authMiddleware);
+//router.use(authMiddleware);
 
 router.post('/', formController.create);
 router.get('/', formController.find);
