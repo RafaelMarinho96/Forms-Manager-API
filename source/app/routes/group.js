@@ -8,6 +8,7 @@ router.use(authMiddleware);
 
 router.post('/', groupController.create);
 router.get('/', groupController.find);
+router.get('/:groupId', groupController.findGroupById);
 router.put('/:groupId', groupController.update);
 router.put('/push/:groupId', groupController.pushGroupFormById);
 

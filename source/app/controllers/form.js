@@ -56,10 +56,28 @@ async function updateById(req, res){
     }
 }
 
+async function pushFormById(req, res){
+    try {
+        const { form } = req.body;
+        console.log(form);
+
+        if(!form)
+            return res.status(400).send({ error: 'Failed, form is not send in req body. (Ref 00x303)'});
+
+        const formResult = await formModel.findByIdAndUpdate(req.params.formId, {form: form}, {new: true})
+
+        res.send({formResult})
+    } catch (err) {
+        console.log(err)
+        return res.status(400).send({ error: 'Failed on update form. (Ref 00x303)'});
+    }
+}
+
 module.exports = {
     create,
     find,
     findById,
     deleteById,
-    updateById
+    updateById,
+    pushFormById
 }

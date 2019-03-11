@@ -63,7 +63,6 @@ async function update(req, res){
 async function pushGroupFormById(req, res){
     try {
         const { forms } = req.body;
-        console.log(req.body)
 
         const group = await groupForm.findByIdAndUpdate(req.params.groupId, forms, {new: true});
 
@@ -73,13 +72,16 @@ async function pushGroupFormById(req, res){
         await Promise.all(forms.map(async form => {
             const groupForm = new Form({ ...form, author: req.userID, group: group._id })
 
+            console.log(groupForm)
             await groupForm.save();
             group.forms.push(groupForm);
+
+            return res.send(groupForm)
         }))
         
         await group.save();
         
-        res.send({group})
+        return res.send({groupForm})
     } catch (err) {
         console.log(err)
         return res.status(400).send({ error: 'Failed on update group. (Ref 00x303)'})
@@ -96,9 +98,20 @@ async function find(req, res){
     }
 }
 
+async function findGroupById(req, res){
+    try {
+        const group = await groupForm.findById(req.params.groupId).populate(['author','forms']);
+
+        res.send({ group })
+    } catch (err) {
+        return res.status(400).send({ error: 'Failed on loading group list. (Ref 00x303)'});
+    }
+}
+
 module.exports = {
     create,
     update,
     find,
-    pushGroupFormById
+    pushGroupFormById,
+    findGroupById
 }
