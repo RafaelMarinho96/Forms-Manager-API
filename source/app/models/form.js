@@ -19,13 +19,8 @@ const FormSchema = new moongose.Schema({
         type: String,
         required: true
     },
-    access: {
-        level: {
-            type: String,
-        },
-        members: [{
-            type: String
-        }]
+    type: {
+        type: String
     },
     form:{
         type: Object,

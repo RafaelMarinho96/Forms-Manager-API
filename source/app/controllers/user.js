@@ -134,10 +134,30 @@ async function isAvailable(req, res){
     }
 }
 
+async function findByEmail(req, res){
+    const email = req.params.email;
+
+    try {
+        const user = await userModel.findOne({ email: {$regex: '^'+email+'$'} });
+
+        if(!user)
+            return res.status(400);
+            console.log('entrou em falso')
+        
+        if(user)
+            return res.status(200).send({ user });
+            console.log('entrou em verdadeiro')
+        
+    } catch (err) {
+        return res.status(400).send({ error: 'User is not be find, try again.'});
+    }
+}
+
 module.exports = {
     createUser,
     authUser,
     forgotPassword,
     resetPassword,
-    isAvailable
+    isAvailable,
+    findByEmail
 }

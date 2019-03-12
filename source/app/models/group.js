@@ -16,8 +16,14 @@ const GroupSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    urlPath: {
+        type: String,
+        unique: true,
+        required: true
+    },
     created_at: {
-        type: String
+        type: Date,
+        default: Date.now
     },
     forms: [{
         type: mongoose.Schema.Types.ObjectId,

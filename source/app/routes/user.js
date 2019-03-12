@@ -10,5 +10,6 @@ router.post('/forgotPassword', userController.forgotPassword);
 router.post('/resetPassword', userController.resetPassword);
 
 router.get('/isAvailable/:email', userController.isAvailable);
+router.get('/:email/exists', userController.findByEmail)
 
 module.exports = app => app.use('/user', router);
