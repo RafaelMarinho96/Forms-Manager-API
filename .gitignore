@@ -1,0 +1,10 @@
+# Gitignore File
+# Created by Rafael Marinho (https://github.com/RafaelMarinho96)
+
+# Dependency directories
+node_modules/ 
+
+# System Files
+desktop.ini
+.DS_Store
+Thumbs.db
