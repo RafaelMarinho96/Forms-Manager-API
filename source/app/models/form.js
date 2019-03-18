@@ -1,17 +1,21 @@
-const moongose = require('../../database/index');
+const mongoose = require('../../database/index');
 
-const FormSchema = new moongose.Schema({
+const FormSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
     },
     author: {
-        type: moongose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
+    answer: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Answer'
+    }],
     group: {
-        type: moongose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Group',
         required: true
     },
@@ -29,9 +33,9 @@ const FormSchema = new moongose.Schema({
     form:{
         type: Object,
         required: true
-    }
+    },
 })
 
-const Form = moongose.model('Form', FormSchema);
+const Form = mongoose.model('Form', FormSchema);
 
 module.exports = Form;

@@ -1,6 +1,7 @@
 'use strict'
 const groupForm = require('../models/group')
 const Form = require('../models/form');
+const answerModel =  require('../models/answer');
 const urlService = require('../services/urlService');
 
 async function create(req, res){
@@ -126,11 +127,39 @@ async function findGroupByUrlPath(req, res){
     }
 }
 
+async function pushGroupAnswersById(req, res){
+    try{
+        const { answer } = req.body;
+
+        const group = await groupForm.findByIdAndUpdate(req.params.groupId, answer, {new: true});
+
+        if(!answer)
+            return res.status(400).send({ error: 'Form is not exists in requisition. (Ref 00x303)'})
+
+        await Promise.all(answer.map(async answer => {
+            const groupForm = new answerModel({ ...answer, author: req.userID, group: group._id })
+
+            await groupForm.save();
+            group.answer.push(groupForm);
+
+            return res.send(groupForm)
+        }))
+        
+        await group.save();
+        
+        return res.send({groupForm})
+    } catch (err) {
+        console.log(err)
+        return res.status(400).send({ error: 'Failed on update group. (Ref 00x303)'})
+    }
+}
+
 module.exports = {
     create,
     update,
     find,
     pushGroupFormById,
+    pushGroupAnswersById,
     findGroupById,
     findGroupByUrlPath
 }

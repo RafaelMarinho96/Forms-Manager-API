@@ -28,6 +28,10 @@ const GroupSchema = new mongoose.Schema({
     forms: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Form'
+    }],
+    answer: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Answer'
     }]
 });
 

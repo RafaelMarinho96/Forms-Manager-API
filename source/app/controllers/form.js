@@ -1,5 +1,6 @@
 'use strict'
 const formModel = require('../models/form');
+const answerModel =  require('../models/answer');
 
 async function create(req, res){
     try {
@@ -76,13 +77,51 @@ async function pushFormById(req, res){
 
 async function findFormByName(req, res){
     try {
-        const urlpath = req.params.name;
+        const urlpath = req.params.urlpath;
+        console.log(urlpath)
 
         const form = await formModel.find({urlPath: urlpath});
 
         return res.send(form)
     } catch (err) {
         return res.status(400).send({ error: 'Failed on update form. (Ref 00x303)'});
+    }
+}
+
+async function pushFormAnswerById(req, res){
+    try{
+        const { answer } = req.body;
+
+        const group = await formModel.findByIdAndUpdate(req.params.formId, answer, {new: true});
+
+        if(!answer)
+            return res.status(400).send({ error: 'Form is not exists in requisition. (Ref 00x303)'})
+
+        await Promise.all(answer.map(async answer => {
+            const formModel = new answerModel({ ...answer, author: req.userID, group: group._id })
+
+            await formModel.save();
+            group.answer.push(formModel);
+
+            return res.send(formModel)
+        }))
+        
+        await group.save();
+        
+        return res.send({formModel})
+    } catch (err) {
+        console.log(err)
+        return res.status(400).send({ error: 'Failed on update group. (Ref 00x303)'})
+    }
+}
+
+async function findAnswerByFormId(req, res){
+    try {
+        const answers = await formModel.findById(req.params.formId).populate(['author', 'group', 'answer']);
+
+        return res.send({answers})
+    } catch (err) {
+        return res.status(400).send({ error: 'Failed on update group. (Ref 00x303)'})
     }
 }
 
@@ -93,5 +132,7 @@ module.exports = {
     findFormByName,
     deleteById,
     updateById,
-    pushFormById
+    pushFormById,
+    pushFormAnswerById,
+    findAnswerByFormId
 }

@@ -11,6 +11,7 @@ router.get('/', groupController.find);
 router.get('/:groupId', groupController.findGroupById);
 router.put('/:groupId', groupController.update);
 router.put('/push/:groupId', groupController.pushGroupFormById);
+router.put('/answer/:groupId', groupController.pushGroupAnswersById)
 
 router.get('/:urlPath/urlpath', groupController.findGroupByUrlPath)
 
