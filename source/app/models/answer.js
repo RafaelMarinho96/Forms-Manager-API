@@ -14,6 +14,11 @@ const AnswerSchema = new moongose.Schema({
         type: moongose.Schema.Types.ObjectId,
         ref: 'Group',
         required: true
+    },
+    form: {
+        type: moongose.Schema.Types.ObjectId,
+        ref: 'Form',
+        required: true
     }
 })
 
